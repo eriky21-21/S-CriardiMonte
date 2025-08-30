@@ -13,6 +13,10 @@ const nextConfig = {
   output: 'standalone',
   compress: true,
   poweredByHeader: false,
+  // Adicione esta configuração para Railway
+  experimental: {
+    serverComponentsExternalPackages: ['@supabase/supabase-js'],
+  },
 }
 
 module.exports = nextConfig
