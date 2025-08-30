@@ -1,3 +1,4 @@
+// next.config.js - DEVE ficar assim:
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -10,8 +11,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // REMOVA esta linha completamente:
-  // output: 'standalone',
+  // NÃO tenha output: 'standalone' aqui!
   compress: true,
   poweredByHeader: false,
 }
