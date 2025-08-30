@@ -10,13 +10,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  
+  // REMOVA esta linha completamente:
+  // output: 'standalone',
   compress: true,
   poweredByHeader: false,
-  // Adicione esta configuração para Railway
-  experimental: {
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
-  },
 }
 
 module.exports = nextConfig
