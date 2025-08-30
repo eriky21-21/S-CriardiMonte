@@ -10,6 +10,7 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
+  // Redirecionar para login se não autenticado
   if (!session && !req.nextUrl.pathname.startsWith('/auth')) {
     const redirectUrl = req.nextUrl.clone()
     redirectUrl.pathname = '/'
@@ -20,5 +21,7 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 }
