@@ -10,6 +10,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  output: 'standalone',
+  compress: true,
+  poweredByHeader: false,
 }
 
 module.exports = nextConfig
