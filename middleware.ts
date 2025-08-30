@@ -1,30 +1,22 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+// middleware.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-
-  // Se não tem sessão E não está em páginas de auth E não está na página inicial
-  if (!session && !req.nextUrl.pathname.startsWith('/auth') && req.nextUrl.pathname !== '/') {
-    const redirectUrl = req.nextUrl.clone()
-    redirectUrl.pathname = '/'
-    return NextResponse.redirect(redirectUrl)
+export function middleware(req: NextRequest) {
+  // Verifica se está autenticado (via localStorage no client, mas aqui verificamos cookie)
+  const isAuthenticated = req.cookies.get('authenticated')?.value === 'true'
+  
+  // Se não está autenticado e não está na página inicial
+  if (!isAuthenticated && req.nextUrl.pathname !== '/') {
+    return NextResponse.redirect(new URL('/', req.url))
   }
-
-  // Se já tem sessão E está tentando acessar a página inicial
-  if (session && req.nextUrl.pathname === '/') {
-    const redirectUrl = req.nextUrl.clone()
-    redirectUrl.pathname = '/dashboard' // ou outra página pós-login
-    return NextResponse.redirect(redirectUrl)
+  
+  // Se está autenticado e está na página inicial, redireciona para dashboard
+  if (isAuthenticated && req.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
   }
-
-  return res
+  
+  return NextResponse.next()
 }
 
 export const config = {
