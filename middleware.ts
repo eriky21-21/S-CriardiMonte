@@ -10,10 +10,17 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // Redirecionar para login se não autenticado
-  if (!session && !req.nextUrl.pathname.startsWith('/auth')) {
+  // Se não tem sessão E não está em páginas de auth E não está na página inicial
+  if (!session && !req.nextUrl.pathname.startsWith('/auth') && req.nextUrl.pathname !== '/') {
     const redirectUrl = req.nextUrl.clone()
     redirectUrl.pathname = '/'
+    return NextResponse.redirect(redirectUrl)
+  }
+
+  // Se já tem sessão E está tentando acessar a página inicial
+  if (session && req.nextUrl.pathname === '/') {
+    const redirectUrl = req.nextUrl.clone()
+    redirectUrl.pathname = '/dashboard' // ou outra página pós-login
     return NextResponse.redirect(redirectUrl)
   }
 
