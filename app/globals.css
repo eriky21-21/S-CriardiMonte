@@ -1,1 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Otimizações para mobile */
+@media (max-width: 768px) {
+  .mobile-optimized {
+    font-size: 14px;
+  }
+  
+  .mobile-padding {
+    padding: 12px;
+  }
+}
+
+/* Estilos para o editor de vídeo */
+.video-editor {
+  @apply bg-gray-100 p-4 rounded-lg;
+}
+
+.segment-item {
+  @apply bg-white p-3 rounded-lg shadow-sm border border-gray-200 mb-2 cursor-move;
+}
+
+.segment-item:hover {
+  @apply shadow-md border-blue-300;
+}
+
+.progress-bar {
+  @apply w-full bg-gray-200 rounded-full h-2.5;
+}
+
+.progress-fill {
+  @apply bg-blue-600 h-2.5 rounded-full transition-all duration-300;
+}
+
+/* Melhorias de usabilidade para mobile */
+@supports(padding: max(0px)) {
+  .safe-area {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
