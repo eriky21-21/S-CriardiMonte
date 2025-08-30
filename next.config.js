@@ -10,7 +10,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: 'standalone',
+  
   compress: true,
   poweredByHeader: false,
   // Adicione esta configuração para Railway
