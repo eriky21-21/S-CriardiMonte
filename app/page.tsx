@@ -64,7 +64,3 @@ export default function Home() {
     </div>
   )
 }
-// No return do app/page.tsx, adicione:
-<div className="text-xs text-gray-400 text-center mt-4">
-  Debug: PIN esperado: {process.env.NEXT_PUBLIC_APP_PIN || '1234 (padrão)'}
-</div>
