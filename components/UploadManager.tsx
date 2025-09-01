@@ -20,10 +20,11 @@ export function UploadManager({ onUploadComplete }: { onUploadComplete: (url: st
         alert('Tipo de arquivo não suportado')
         return
       }
-
-      if (file.size > 50 * 1024 * 1024) {
-        alert('Arquivo muito grande (máx. 50MB)')
-        return
+    
+if (file.size > 200 * 1024 * 1024) { // 200MB
+  alert('Arquivo muito grande (máx. 200MB)')
+  return
+}
       }
 
       // Tenta fazer upload para Supabase
