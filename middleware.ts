@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(req: NextRequest) {
-  // Verifica se está autenticado (via localStorage no client, mas aqui verificamos cookie)
+  // Verifica o cookie de autenticação
   const isAuthenticated = req.cookies.get('authenticated')?.value === 'true'
   
   // Se não está autenticado e não está na página inicial
