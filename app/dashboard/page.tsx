@@ -1,103 +1,74 @@
-// app/dashboard/page.tsx (atualizado)
+// app/dashboard/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
-import { UploadManager } from '@/components/UploadManager'
-import { VideoPreview } from '@/components/VideoPreview'
-import { VideoAIGenerator } from '@/lib/ai-generator'
+import { CriarVideoTab } from '@/components/CriarVideoTab'
+import { ModelosTab } from '@/components/ModelosTab'
+import { IdeiasTab } from '@/components/IdeiasTab'
 import { ModelsManager } from '@/lib/models-manager'
-import { VideoModel, VideoConfig } from '@/types/video'
+import { VideoModel } from '@/types/video'
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('criar')
-  const [texto, setTexto] = useState('')
-  const [gerando, setGerando] = useState(false)
   const [modelos, setModelos] = useState<VideoModel[]>([])
-  const [midiasUploaded, setMidiasUploaded] = useState<string[]>([])
-  const [videoGerado, setVideoGerado] = useState<VideoConfig | null>(null)
-  const [mostrarPreview, setMostrarPreview] = useState(false)
 
-  // ... outros estados e useEffect ...
+  useEffect(() => {
+    carregarModelos()
+  }, [])
 
-  const gerarVideo = async () => {
+  const carregarModelos = async () => {
     try {
-      setGerando(true)
-      const config = await VideoAIGenerator.generateVideoFromText(texto)
-      
-      // Ajusta a duração baseado no texto (8min = 480s)
-      const duracaoMinutos = Math.max(30, Math.min(600, texto.length / 10)) // 30s to 10min
-      config.duracao = duracaoMinutos
-      
-      setVideoGerado(config)
-      setMostrarPreview(true)
-      
+      const modelosData = await ModelsManager.carregarModelos()
+      setModelos(modelosData)
     } catch (error) {
-      console.error('Erro ao gerar vídeo:', error)
-      alert('Erro ao gerar vídeo')
-    } finally {
-      setGerando(false)
-    }
-  }
-
-  const handleImprovement = async (suggestion: string) => {
-    if (!videoGerado) return
-    
-    alert(`Melhoria solicitada: "${suggestion}"\n\nSistema de IA processando...`)
-    
-    // Simula processamento de melhoria
-    const novoConfig = { ...videoGerado }
-    
-    if (suggestion.includes('música')) {
-      novoConfig.elementos.musicas = ['nova_musica_epica', 'trilha_emotional']
-    }
-    
-    if (suggestion.includes('texto') || suggestion.includes('narração')) {
-      novoConfig.elementos.textos.push('Texto adicional com narração')
-    }
-    
-    setVideoGerado(novoConfig)
-    alert('Melhorias aplicadas com sucesso! ✅')
-  }
-
-  const salvarVideo = async () => {
-    if (!videoGerado) return
-    
-    try {
-      const modelo: Omit<VideoModel, 'id' | 'created_at'> = {
-        nome: `Vídeo ${new Date().toLocaleDateString()}`,
-        descricao: texto.slice(0, 100) + '...',
-        config: videoGerado
-      }
-
-      await ModelsManager.salvarModelo(modelo)
-      await carregarModelos()
-      alert('Vídeo salvo com sucesso! 🎉')
-      
-    } catch (error) {
-      console.error('Erro ao salvar vídeo:', error)
-      alert('Erro ao salvar vídeo')
+      console.error('Erro ao carregar modelos:', error)
     }
   }
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* ... header e abas ... */}
-      
-      <div className="mt-6">
-        {activeTab === 'criar' && (
-          <div className="space-y-6">
-            {/* ... formulário existente ... */}
-            
-            {mostrarPreview && videoGerado && (
-              <VideoPreview
-                videoConfig={videoGerado}
-                onImprove={handleImprovement}
-                onSave={salvarVideo}
-              />
-            )}
-          </div>
-        )}
-        {/* ... outras abas ... */}
+      {/* Header */}
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <h1 className="text-2xl font-bold text-gray-900">🎬 Studio de Vídeos Virais</h1>
+          <p className="text-sm text-gray-600">Crie conteúdo engaging para redes sociais</p>
+        </div>
+      </header>
+
+      {/* Abas */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex space-x-4 border-b border-gray-200">
+          {['criar', 'modelos', 'ideias'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`py-2 px-4 font-medium ${
+                activeTab === tab
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-gray-500 hover:text-gray-700'
+              } cursor-pointer`}
+            >
+              {tab === 'criar' && '🎥 Criar Vídeo'}
+              {tab === 'modelos' && '📁 Modelos'}
+              {tab === 'ideias' && '💡 Ideias'}
+            </button>
+          ))}
+        </div>
+
+        {/* Conteúdo das abas */}
+        <div className="mt-6">
+          {activeTab === 'criar' && (
+            <CriarVideoTab onModeloSalvo={carregarModelos} />
+          )}
+          
+          {activeTab === 'modelos' && (
+            <ModelosTab modelos={modelos} onCarregarModelos={carregarModelos} />
+          )}
+          
+          {activeTab === 'ideias' && (
+            <IdeiasTab />
+          )}
+        </div>
       </div>
     </div>
   )
