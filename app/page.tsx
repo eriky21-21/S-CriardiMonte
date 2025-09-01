@@ -12,11 +12,13 @@ export default function Home() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     
-    // PIN fixo - você muda no Railway depois
+    // CORRIGIDO: Use NEXT_PUBLIC_APP_PIN
     const correctPin = process.env.NEXT_PUBLIC_APP_PIN || '1234'
     
     if (pin === correctPin) {
+      // Salva tanto no localStorage quanto em cookie para o middleware
       localStorage.setItem('authenticated', 'true')
+      document.cookie = 'authenticated=true; path=/; max-age=86400' // 1 dia
       router.push('/dashboard')
     } else {
       setError('PIN incorreto')
