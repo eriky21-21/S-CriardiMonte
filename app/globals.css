@@ -77,3 +77,15 @@ body {
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+/* Adicione no final do seu globals.css */
+button, 
+a, 
+input[type="file"], 
+label[for] {
+  cursor: pointer;
+}
+
+/* Para elementos interativos específicos */
+.hover\:cursor-pointer:hover {
+  cursor: pointer;
+}
