@@ -1,5 +1,5 @@
 // lib/pin.ts
 export const PIN_CONFIG = {
-  // Você vai definir esta variável no Railway depois
-  requiredPin: process.env.APP_PIN || '4354'
+  // Use NEXT_PUBLIC_ para funcionar no cliente
+  requiredPin: process.env.NEXT_PUBLIC_APP_PIN || '1234'
 }
