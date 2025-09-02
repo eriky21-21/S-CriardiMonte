@@ -25,6 +25,8 @@ export function VideoPreview({ videoConfig, onImprove, onSave }: VideoPreviewPro
             <p><strong>Resolução:</strong> {videoConfig.resolucao}</p>
             <p><strong>Estilo:</strong> {videoConfig.estilo}</p>
             <p><strong>Músicas:</strong> {videoConfig.elementos.musicas.join(', ')}</p>
+            <p><strong>Qualidade:</strong> {videoConfig.qualidade || 'high'}</p>
+            <p><strong>Estratégia:</strong> {videoConfig.duracao > 180 ? 'Otimizado para longa duração' : 'Máxima qualidade'}</p>
           </div>
 
           <button
@@ -83,5 +85,3 @@ export function VideoPreview({ videoConfig, onImprove, onSave }: VideoPreviewPro
     </div>
   )
 }
-<p><strong>Qualidade:</strong> {videoConfig.qualidade || 'high'}</p>
-<p><strong>Estratégia:</strong> {videoConfig.duracao > 180 ? 'Otimizado para longa duração' : 'Máxima qualidade'}</p>
