@@ -59,7 +59,7 @@ export function VideoGenerationProgress({
       </div>
       
       <p className="text-xs text-blue-500 mt-2">
-        Gerando vídeo de {Math.floor(totalDuration / 60)}min em 4K otimizado...
+        Gerando vídeo de {Math.floor(totalDuration / 60)}min em {totalDuration > 180 ? '2K' : '4K'}...
       </p>
     </div>
   )
