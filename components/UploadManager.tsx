@@ -75,7 +75,7 @@ export function UploadManager({ onUploadComplete }: { onUploadComplete: (url: st
         disabled={uploading}
         className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 disabled:opacity-50 cursor-pointer"
       >
-        {uploading ? 'Fazendo Upload...' : 'Fazer Upload de Mídia'}
+        {uploading ? '📤 Fazendo Upload...' : '📁 Fazer Upload de Mídia'}
       </button>
     </div>
   );
