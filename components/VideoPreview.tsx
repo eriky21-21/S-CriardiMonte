@@ -83,3 +83,5 @@ export function VideoPreview({ videoConfig, onImprove, onSave }: VideoPreviewPro
     </div>
   )
 }
+<p><strong>Qualidade:</strong> {videoConfig.qualidade || 'high'}</p>
+<p><strong>Estratégia:</strong> {videoConfig.duracao > 180 ? 'Otimizado para longa duração' : 'Máxima qualidade'}</p>
